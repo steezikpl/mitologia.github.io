@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notatka do szkoły – Mitologia Jana Parandowskiego</title>
+    <style>
+        :root {
+            --bg: #fdfdfd;
+            --text: #333;
+            --card-bg: white;
+            --border: #eee;
+            --header-bg: #f8f9fa;
+            --header-text: #2c3e50;
+            --hover-row: #fcfcfc;
+            --btn-bg: #3498db;
+            --btn-hover: #2980b9;
+            --btn-active: #e74c3c;
+            --shadow: rgba(0,0,0,0.08);
+        }
+
+        .dark-mode {
+            --bg: #121212;
+            --text: #f0f0f0;
+            --card-bg: #1e1e1e;
+            --border: #333;
+            --header-bg: #252525;
+            --header-text: #e0e0e0;
+            --hover-row: #2a2a2a;
+            --btn-bg: #2980b9;
+            --btn-hover: #1c6ea4;
+            --btn-active: #c0392b;
+            --shadow: rgba(0,0,0,0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 16px;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h2 {
+            text-align: center;
+            color: var(--header-text);
+            margin: 16px 0 24px;
+            font-size: 24px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .controls button {
+            padding: 10px 16px;
+            font-size: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--btn-bg);
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .controls button:hover {
+            background-color: var(--btn-hover);
+        }
+        .controls button.active {
+            background-color: var(--btn-active);
+        }
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+            background: var(--card-bg);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        th, td {
+            padding: 16px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+            transition: color 0.2s;
+        }
+        th {
+            background-color: var(--header-bg);
+            font-weight: bold;
+            font-size: 17px;
+            color: var(--header-text);
+            position: sticky;
+            top: 0;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover:not(.hidden-row-text) {
+            background-color: var(--hover-row);
+            transition: background-color 0.2s;
+        }
+        .description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--text);
+        }
+        .hidden-cell,
+        .hidden-row-text td,
+        .hidden-row-text .description {
+            color: transparent !important;
+            user-select: none;
+            pointer-events: none;
+        }
+        #darkModeToggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--btn-bg);
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 100;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            h2 {
+                font-size: 22px;
+            }
+            .controls button {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            th, td {
+                padding: 12px 10px;
+                font-size: 15px;
+            }
+            .description {
+                font-size: 15px;
+            }
+            #darkModeToggle {
+                top: 12px;
+                right: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<button id="darkModeToggle" aria-label="Przełącz tryb ciemny">🌙</button>
+
+<h2>Notatka do szkoły – Mitologia Jana Parandowskiego</h2>
+
+<div class="controls">
+    <button id="toggleGreek">Zamazuj imiona greckie</button>
+    <button id="toggleRoman">Zamazuj imiona rzymskie</button>
+    <button id="toggleDesc">Zamazuj opisy</button>
+    <button id="toggleRowMode">Zamazuj wiersz (kliknij wiersz)</button>
+</div>
+
+<div class="table-container">
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Imię boga (greckie)</th>
+                <th>Rzymski odpowiednik</th>
+                <th>Opis i funkcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Wszystkie wiersze bez zmian -->
+            <tr><td>Zeus</td><td>Jowisz</td><td class="description">Najwyższy bóg – władca nieba, ziemi i Olimpu. Panował nad piorunami, burzą i deszczem. Strzegł prawa, gościnności i przysięg. Ojciec bogów i ludzi.</td></tr>
+            <tr><td>Hestia</td><td>Westa</td><td class="description">Bogini ogniska domowego i świętego ognia publicznego. Uosobienie spokoju, czystości i rodziny. Nie brała udziału w konfliktach – była najbardziej skromną z bogiń.</td></tr>
+            <tr><td>Dionizos</td><td>Bachus</td><td class="description">Bóg wina, winorośli, ekstazy religijnej i teatru. Patron radości, urodzaju i misteriów dionizyjskich. Był jedynym bogiem z matką śmiertelniczką (Semele).</td></tr>
+            <tr><td>Atena</td><td>Minerwa</td><td class="description">Bogini mądrości, strategicznej wojny, rzemiosła, nauki i sprawiedliwości. Urodziła się z głowy Zeusa. Patronka Aten, tkactwa i rzemieślników. Towarzyszka Nike.</td></tr>
+            <tr><td>Artemis</td><td>Diana</td><td class="description">Bogini łowów, dziewictwa, przyrody dzikiej, zwierząt i księżyca. Opiekunka kobiet w ciąży i porodzie. Siostra Apolla. Nienawidziła mężczyzn i strzegła swojej czystości.</td></tr>
+            <tr><td>Afrodyta</td><td>Wenus</td><td class="description">Bogini miłości, piękna, urody i pożądania. Urodziła się z piany morskiej. Małżonka Hefajstosa, ale miała liczne romanse (m.in. z Aresem). Matka Erosa.</td></tr>
+            <tr><td>Ares</td><td>Mars</td><td class="description">Bóg brutalnej, krwawej wojny, chaosu i nienawiści. Reprezentował okrucieństwo i zniszczenie, w przeciwieństwie do Ateny. Był kochankiem Afrodyty.</td></tr>
+            <tr><td>Tanatos</td><td>Mors</td><td class="description">Uosobienie śmierci – cichy, łagodny, ale nieubłagany. Brat Hypnosa (Snu). Rzadko pojawiał się w mitach, bo ludzie unikali wypowiadania jego imienia.</td></tr>
+            <tr><td>Eris</td><td>Dyskordia</td><td class="description">Bogini niezgody, kłótni i chaosu. Nie zaproszono jej na ślub Peleusa i Tetydy – w zemście rzuciła złote jabłko „Najpiękniejszej”, co doprowadziło do wojny trojańskiej.</td></tr>
+            <tr><td>Persefona</td><td>Prozerpina</td><td class="description">Córka Demeter, królowa podziemi. Porwana przez Hadesa. Spędza 4 miesiące w podziemiach (zima), a 8 na ziemi (wiosna i lato). Symbol cyklu przyrody.</td></tr>
+            <tr><td>Apollo</td><td>Apollo</td><td class="description">Bóg słońca, światła, prawdy, muzyki, poezji, proroctw i leczenia. Patron wyroczni w Delfach. Brat Artemis. Przeciwność ciemności i kłamstwa.</td></tr>
+            <tr><td>Hermes</td><td>Merkury</td><td class="description">Bóg posłańców, podróżnych, handlu, złodziei i granic. Przewodnik dusz do Hadesu (psychopomp). Wynalazca liry i ognia. Szybki, sprytny i charyzmatyczny.</td></tr>
+            <tr><td>Hefajstos</td><td>Wulkan</td><td class="description">Bóg ognia, kowali, rzemieślników i kuźni. Kowal bogów – tworzył ich broń i pałace. Był kulawy, ale niezwykle utalentowany. Mąż Afrodyty.</td></tr>
+            <tr><td>Hera</td><td>Junona</td><td class="description">Żona i siostra Zeusa. Bogini małżeństwa, rodziny i wierności małżeńskiej. Patronka kobiet zamężnych. Zazdrośnica – prześladowała kochanki Zeusa i ich dzieci.</td></tr>
+            <tr><td>Demeter</td><td>Ceres</td><td class="description">Bogini rolnictwa, zbóż, urodzaju i cyklu pór roku. Gdy Hades porwał Persefonę, zaprzestała opiekować się ziemią – powstał głód. Jej kult związany z misteriami eleuzyńskimi.</td></tr>
+            <tr><td>Nike</td><td>Wiktoria</td><td class="description">Bogini zwycięstwa w wojnie i sporcie. Towarzyszka Ateny i Zeusa. Często przedstawiana z wieńcem lub palmą. Jej imię oznacza „zwycięstwo” w języku greckim.</td></tr>
+            <tr><td>Hypnos</td><td>Somnus</td><td class="description">Bóg snu. Brat Tanatosa. Mieszkał w ciemnej jaskini, z której płynęła rzeka Lete (zapomnienia). Jego synami byli Morfeusz i inne sny.</td></tr>
+            <tr><td>Hades</td><td>Pluton</td><td class="description">Bóg świata zmarłych i podziemi. Nie był bogiem zła – był surowym, ale sprawiedliwym strażnikiem granicy między życiem a śmiercią. Właściciel Helmety Niewidzialności.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Tryb ciemny
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.textContent = '☀️';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            darkModeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+        });
+
+        // Przyciski kolumn
+        const greekBtn = document.getElementById('toggleGreek');
+        const romanBtn = document.getElementById('toggleRoman');
+        const descBtn = document.getElementById('toggleDesc');
+        const rowModeBtn = document.getElementById('toggleRowMode');
+        const table = document.getElementById('myTable');
+        const tbody = table.querySelector('tbody');
+
+        let greekHidden = false;
+        let romanHidden = false;
+        let descHidden = false;
+        let rowModeActive = false;
+
+        function updateCells(selector, hidden) {
+            document.querySelectorAll(selector).forEach(cell => {
+                cell.classList.toggle('hidden-cell', hidden);
+            });
+        }
+
+        // Obsługa kolumn
+        greekBtn.addEventListener('click', () => {
+            greekHidden = !greekHidden;
+            updateCells('td:nth-child(1), th:nth-child(1)', greekHidden);
+            greekBtn.classList.toggle('active', greekHidden);
+        });
+
+        romanBtn.addEventListener('click', () => {
+            romanHidden = !romanHidden;
+            updateCells('td:nth-child(2), th:nth-child(2)', romanHidden);
+            romanBtn.classList.toggle('active', romanHidden);
+        });
+
+        descBtn.addEventListener('click', () => {
+            descHidden = !descHidden;
+            updateCells('td:nth-child(3), th:nth-child(3)', descHidden);
+            descBtn.classList.toggle('active', descHidden);
+        });
+
+        // Obsługa trybu wierszy – DELEGACJA
+        function handleRowClick(e) {
+            // Sprawdzamy, czy kliknięto w komórkę wiersza (td) lub sam wiersz (tr)
+            let row = e.target.closest('tr');
+            if (row && row.parentElement === tbody && rowModeActive) {
+                row.classList.toggle('hidden-row-text');
+            }
+        }
+
+        // Jeden nasłuch na całej tabeli
+        table.addEventListener('click', handleRowClick);
+
+        // Przełączanie trybu wierszy
+        rowModeBtn.addEventListener('click', () => {
+            rowModeActive = !rowModeActive;
+            rowModeBtn.classList.toggle('active', rowModeActive);
+
+            if (!rowModeActive) {
+                // Gdy wyłączamy – odkrywamy wszystkie wiersze
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    row.classList.remove('hidden-row-text');
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
